@@ -8,45 +8,11 @@ servers:
   - url: http://localhost:8080
 
 tags:
-  - name: Auth
   - name: Products
   - name: Cart
   - name: Orders
-  - name: Payment
 
 paths:
-
-  /auth/register:
-    post:
-      tags: [Auth]
-      summary: Register user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterRequest'
-      responses:
-        '200':
-          description: User registered
-
-  /auth/login:
-    post:
-      tags: [Auth]
-      summary: Login user
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: JWT token
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthResponse'
 
   /products:
     get:
@@ -74,7 +40,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Product'
       responses:
-        '200':
+        '201':
           description: Product added
 
   /products/{id}:
@@ -107,7 +73,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        '204':
           description: Product deleted
 
   /cart:
@@ -137,7 +103,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CartItemRequest'
       responses:
-        '200':
+        '201':
           description: Item added
 
   /cart/remove/{productId}:
@@ -153,17 +119,23 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        '204':
           description: Item removed
 
   /orders/checkout:
     post:
       tags: [Orders]
-      summary: Checkout cart
+      summary: Checkout cart and create order
       security:
         - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
       responses:
-        '200':
+        '201':
           description: Order created
           content:
             application/json:
@@ -186,22 +158,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Order'
 
-  /payment:
-    post:
-      tags: [Payment]
-      summary: Simulate payment
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PaymentRequest'
-      responses:
-        '200':
-          description: Payment successful
-
 components:
 
   securitySchemes:
@@ -211,30 +167,6 @@ components:
       bearerFormat: JWT
 
   schemas:
-
-    RegisterRequest:
-      type: object
-      properties:
-        username:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-
-    LoginRequest:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-
-    AuthResponse:
-      type: object
-      properties:
-        token:
-          type: string
 
     Product:
       type: object
@@ -266,6 +198,14 @@ components:
         totalPrice:
           type: number
 
+    CheckoutRequest:
+      type: object
+      properties:
+        cartId:
+          type: integer
+        paymentMethod:
+          type: string
+
     Order:
       type: object
       properties:
@@ -278,12 +218,4 @@ components:
         totalPrice:
           type: number
         status:
-          type: string
-
-    PaymentRequest:
-      type: object
-      properties:
-        orderId:
-          type: integer
-        method:
           type: string
