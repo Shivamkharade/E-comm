@@ -15,6 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class WebSecurityConfig {
 
+	private final UserConfiguration configuration;
+	
+	public WebSecurityConfig(UserConfiguration configuration1) {
+		this.configuration = configuration1;
+	}
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception  {

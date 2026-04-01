@@ -3,7 +3,6 @@ package com.e_comm.serviceimpl;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -51,7 +50,5 @@ public class ProductServiceImpl implements ProductService {
 		ProductEntity entity = mapper.map(product, ProductEntity.class);
 		return productRepository.save(entity);
 	}
-	
-	
 	
 }
