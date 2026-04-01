@@ -42,6 +42,10 @@ paths:
       responses:
         '201':
           description: Product added
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Product'
 
   /products/{id}:
     get:
@@ -105,6 +109,11 @@ paths:
       responses:
         '201':
           description: Item added
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Cart'
+            
 
   /cart/remove/{productId}:
     delete:
