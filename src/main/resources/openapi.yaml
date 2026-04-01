@@ -86,7 +86,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Product details
@@ -105,7 +105,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Product deleted
@@ -151,7 +151,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Item removed
@@ -240,7 +240,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         name:
           type: string
         description:
@@ -252,7 +252,7 @@ components:
       type: object
       properties:
         productId:
-          type: integer
+          type: string
         quantity:
           type: integer
 
@@ -270,7 +270,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         items:
           type: array
           items:
@@ -284,6 +284,6 @@ components:
       type: object
       properties:
         orderId:
-          type: integer
+          type: string
         method:
           type: string
