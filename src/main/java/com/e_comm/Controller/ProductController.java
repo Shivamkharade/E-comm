@@ -2,10 +2,7 @@ package com.e_comm.Controller;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.apache.catalina.mapper.Mapper;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +11,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import com.e_comm.service.ProductService;
 import com.petstore.api.ProductsApi;
 import com.petstore.model.Product;
-
-import ch.qos.logback.core.model.Model;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
