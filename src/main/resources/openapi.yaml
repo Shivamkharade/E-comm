@@ -42,6 +42,10 @@ paths:
       responses:
         '201':
           description: Product added
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Product'
 
   /products/{id}:
     get:
@@ -52,7 +56,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Product details
@@ -71,7 +75,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Product deleted
@@ -105,6 +109,11 @@ paths:
       responses:
         '201':
           description: Item added
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Cart'
+            
 
   /cart/remove/{productId}:
     delete:
@@ -117,7 +126,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Item removed
@@ -172,7 +181,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         name:
           type: string
         description:
@@ -184,7 +193,7 @@ components:
       type: object
       properties:
         productId:
-          type: integer
+          type: string
         quantity:
           type: integer
 
@@ -202,7 +211,7 @@ components:
       type: object
       properties:
         cartId:
-          type: integer
+          type: string
         paymentMethod:
           type: string
 
@@ -210,7 +219,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         items:
           type: array
           items:
