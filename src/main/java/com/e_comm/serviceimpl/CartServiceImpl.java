@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.e_comm.Repository.CartRepository;
+import com.e_comm.entity.CartEntity;
 import com.e_comm.service.CartService;
 
 @Service
@@ -18,6 +19,11 @@ public class CartServiceImpl implements CartService{
 	public CartServiceImpl(CartRepository cartRepository1) {
 		this.cartRepository =cartRepository1;
 		this.mapper = new ModelMapper();
+	}
+
+	@Override
+	public CartEntity cartGet() {
+		return null;
 	}
 	
 	

@@ -35,14 +35,14 @@ public class CartController implements CartApi {
 
 	@Override
 	public ResponseEntity<Cart> cartAddPost(@Valid CartItemRequest cartItemRequest) {
-		// TODO Auto-generated method stub
+		
 		return CartApi.super.cartAddPost(cartItemRequest);
 	}
 
 	@Override
 	public ResponseEntity<Cart> cartGet() {
-		// TODO Auto-generated method stub
-		return CartApi.super.cartGet();
+		Cart cart = mapper.map(cartService.cartGet(), Cart.class);
+		return ResponseEntity.ok(cart);
 	}
 
 	@Override
