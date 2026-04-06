@@ -15,11 +15,8 @@ public class UserConfiguration implements UserDetailsService {
 
 	private final UserRepository repository;
 	
-	private final PasswordEncoder encoder;
-	
-	public UserConfiguration (UserRepository repository1,PasswordEncoder encoder1) {
+	public UserConfiguration (UserRepository repository1) {
 		this.repository = repository1;
-		this.encoder = encoder1;
 	}
 
 	@Override

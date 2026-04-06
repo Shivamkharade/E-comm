@@ -36,6 +36,11 @@ public class UserEntity implements UserDetails {
 
     public UserEntity() {
     }
+    
+    public UserEntity(String username1,String Password1) {
+    	this.username = username1;
+    	this.password = Password1;
+    }
 
     public UserEntity(String username, String email, String password, String role) {
         this.username = username;
