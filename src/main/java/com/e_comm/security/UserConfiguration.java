@@ -1,4 +1,4 @@
-package com.e_comm.config;
+package com.e_comm.security;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,12 +24,7 @@ public class UserConfiguration implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserEntity user =  repository.findByUsername(username);
-		return User.builder()
-				   .username(user.getUsername())
-				   .password(encoder.encode(user.getPassword()))
-				   .roles(user.getRole())
-				   .build();
+		return repository.findByUsername(username).orElseThrow();
 	}
 	
 }
