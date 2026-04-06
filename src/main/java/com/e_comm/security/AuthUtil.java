@@ -19,7 +19,6 @@ public class AuthUtil {
     @Value("${jwt.secretkey}")
     private String jwtSecretKey;
 
-    // ✅ 5 minutes expiration
     private static final long EXPIRATION_TIME = 1000 * 60 * 5;
 
     private Key getSecretKey() {
