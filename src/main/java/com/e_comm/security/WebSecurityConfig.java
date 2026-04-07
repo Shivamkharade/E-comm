@@ -28,8 +28,8 @@ public class WebSecurityConfig {
 			.sessionManagement(sessionconfig -> sessionconfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/auth/**").permitAll()
-					.requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
-					.requestMatchers("/admin/**").hasRole("ADMIN")
+					.requestMatchers("/orders/**").hasAnyRole("USER","ADMIN")
+					.requestMatchers("/products/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					)
 			.addFilterBefore(jwtauthFilter, UsernamePasswordAuthenticationFilter.class);
