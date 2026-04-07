@@ -32,8 +32,8 @@ public class WebSecurityConfig {
 					.requestMatchers("/admin/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					)
-			.addFilterBefore(jwtauthFilter, UsernamePasswordAuthenticationFilter.class)
-			.formLogin(Customizer.withDefaults());
+			.addFilterBefore(jwtauthFilter, UsernamePasswordAuthenticationFilter.class);
+//			.formLogin(Customizer.withDefaults());
 		
 		return http.build();
 	}
