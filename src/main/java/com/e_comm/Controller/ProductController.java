@@ -58,7 +58,4 @@ public class ProductController implements ProductsApi{
 		Product product2 = mapper.map(productService.productsPost(product), Product.class);
 		return new ResponseEntity<>(product2,HttpStatus.CREATED);
 	}	
-	
-	
-	
 }

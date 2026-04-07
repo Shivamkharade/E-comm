@@ -1,5 +1,12 @@
 package com.e_comm.entity;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "UserAuth")
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,6 +35,11 @@ public class UserEntity {
     private String role = "USER"; 
 
     public UserEntity() {
+    }
+    
+    public UserEntity(String username1,String Password1) {
+    	this.username = username1;
+    	this.password = Password1;
     }
 
     public UserEntity(String username, String email, String password, String role) {
@@ -82,6 +94,11 @@ public class UserEntity {
 	public String toString() {
 		return "UserEntity [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", role=" + role + "]";
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_"+this.role));
 	}
     
     
