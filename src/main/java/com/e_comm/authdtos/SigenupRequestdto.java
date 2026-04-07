@@ -1,4 +1,4 @@
-package com.e_comm.security;
+package com.e_comm.authdtos;
 
 public class SigenupRequestdto {
 

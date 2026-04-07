@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.e_comm.security.LogInRequestDto;
-import com.e_comm.security.SigenupRequestdto;
-import com.e_comm.security.SigenupResponsDto;
+import com.e_comm.authdtos.LogInRequestDto;
+import com.e_comm.authdtos.SigenupRequestdto;
+import com.e_comm.authdtos.SigenupResponsDto;
+import com.e_comm.authdtos.loginResponsdto;
 import com.e_comm.security.authService;
-import com.e_comm.security.loginResponsdto;
 
 
 @RestController
