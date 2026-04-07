@@ -3,6 +3,7 @@ package com.e_comm.security;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.e_comm.Repository.UserRepository;
@@ -17,14 +18,17 @@ public class authService {
 	
 	private final UserRepository repository;
 	
+	private final PasswordEncoder encoder;
 	
-	public authService(AuthenticationManager authenticationManager1,AuthUtil authUtil1,UserRepository repository1) {
+	
+	public authService(AuthenticationManager authenticationManager1,AuthUtil authUtil1,UserRepository repository1,PasswordEncoder encoder1) {
 		this.authenticationManager = authenticationManager1;
 		this.authUtil = authUtil1;
 		this.repository = repository1;
+		this.encoder = encoder1;
 	}
 
-	public loginResponsdto login(LoginRequestdto loginRequestdto) {
+	public loginResponsdto login(LogInRequestDto loginRequestdto) {
 		
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequestdto.getUsername(), loginRequestdto.getPassword())
@@ -37,12 +41,15 @@ public class authService {
 		return new loginResponsdto(tokan,user.getId());
 	}
 
-	public SigenupResponsDto signup(LoginRequestdto sigenupRequestdto) {
+	public SigenupResponsDto signup(SigenupRequestdto sigenupRequestdto) {
 		UserEntity entity = repository.findByUsername(sigenupRequestdto.getUsername()).orElse(null);
 		
 		if (entity != null) throw new IllegalArgumentException("User alredy exits");
 		
-		entity = repository.save(new UserEntity(sigenupRequestdto.getUsername(),sigenupRequestdto.getPassword(),sigenupRequestdto.getEmail()));
+		entity = repository.save(new UserEntity(
+				sigenupRequestdto.getUsername(),
+				encoder.encode(sigenupRequestdto.getPassword()),
+				sigenupRequestdto.getEmail()));
 		return new SigenupResponsDto(entity.getId(), entity.getUsername());
 	}
 
