@@ -8,7 +8,6 @@ public class SigenupRequestdto {
 	
 	private String email;
 	
-	private String role;
 
 	public String getUsername() {
 		return username;
@@ -34,20 +33,12 @@ public class SigenupRequestdto {
 		this.email = email;
 	}
 
-	public String getRole() {
-		return role;
-	}
 
-	public void setRole(String role) {
-		this.role = role;
-	}
-
-	public SigenupRequestdto(String username, String password, String email, String role) {
+	public SigenupRequestdto(String username, String password, String email) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.role = role;
 	}
 
 	public SigenupRequestdto() {

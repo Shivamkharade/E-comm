@@ -51,7 +51,7 @@ public class authService {
 		if (entity != null) throw new IllegalArgumentException("User alredy exits");
 		
 		entity = repository.save(new 
-				UserEntity(sigenupRequestdto.getUsername(), sigenupRequestdto.getEmail(),encoder.encode(sigenupRequestdto.getPassword()), sigenupRequestdto.getRole()));
+				UserEntity(sigenupRequestdto.getUsername(), sigenupRequestdto.getEmail(),encoder.encode(sigenupRequestdto.getPassword())));
 		return new SigenupResponsDto(entity.getId(), entity.getUsername());
 	}
 

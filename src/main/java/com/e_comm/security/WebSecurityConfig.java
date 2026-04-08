@@ -2,6 +2,7 @@ package com.e_comm.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -28,7 +29,8 @@ public class WebSecurityConfig {
 			.sessionManagement(sessionconfig -> sessionconfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/auth/**").permitAll()
-					.requestMatchers("/orders/**").hasAnyRole("USER","ADMIN")
+					.requestMatchers(HttpMethod.GET,"/products/**").hasAllRoles("USER")
+					.requestMatchers("/orders/**","/cart/**").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/products/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					)
