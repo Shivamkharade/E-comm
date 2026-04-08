@@ -28,27 +28,33 @@ public class CartController implements CartApi {
 	}
 
 	@Override
+	public ResponseEntity<Cart> cartAddPost(@Valid CartItemRequest cartItemRequest) {
+		// TODO Auto-generated method stub
+		return CartApi.super.cartAddPost(cartItemRequest);
+	}
+
+	@Override
+	public ResponseEntity<Void> cartClearDelete() {
+		// TODO Auto-generated method stub
+		return CartApi.super.cartClearDelete();
+	}
+
+	@Override
+	public ResponseEntity<Cart> cartGet() {
+		// TODO Auto-generated method stub
+		return CartApi.super.cartGet();
+	}
+
+	@Override
+	public ResponseEntity<Void> cartRemoveProductNameDelete(@NotNull String productName) {
+		// TODO Auto-generated method stub
+		return CartApi.super.cartRemoveProductNameDelete(productName);
+	}
+	
+	@Override
 	public Optional<NativeWebRequest> getRequest() {
 		// TODO Auto-generated method stub
 		return CartApi.super.getRequest();
 	}
 
-	@Override
-	public ResponseEntity<Cart> cartAddPost(@Valid CartItemRequest cartItemRequest) {
-		
-		return CartApi.super.cartAddPost(cartItemRequest);
-	}
-
-	@Override
-	public ResponseEntity<Cart> cartGet() {
-		Cart cart = mapper.map(cartService.cartGet(), Cart.class);
-		return ResponseEntity.ok(cart);
-	}
-
-	@Override
-	public ResponseEntity<Void> cartRemoveProductIdDelete(@NotNull String productId) {
-		// TODO Auto-generated method stub
-		return CartApi.super.cartRemoveProductIdDelete(productId);
-	}
-	
 }
