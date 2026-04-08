@@ -255,3 +255,8 @@ components:
           type: number
         status:
           type: string
+          enum:
+            - CREATED
+            - PAID
+            - SHIPPED
+            - DELIVERED

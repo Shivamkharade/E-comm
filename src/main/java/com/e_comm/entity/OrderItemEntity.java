@@ -14,41 +14,40 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-
 @Entity
 @Table(
-	    name = "cart_item",
-	    uniqueConstraints = @UniqueConstraint(columnNames = {"cart_id", "product_id"})
+	    name = "order_item",
+	    uniqueConstraints = @UniqueConstraint(columnNames = {"order_id", "product_id"})
 	)
-public class CartItemEntity {
+public class OrderItemEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cart_id",
-				nullable = false)
-	private CartEntity cart;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_id",
+				nullable = false)
+	private OrderEntity order;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id",
 				nullable = false)
 	private ProductEntity product;
-	
-	private int quantity;
-	
-	private BigDecimal price; // price at time of adding 
+
+	private Integer quantity;
+
+	private BigDecimal price;
 	
 	private BigDecimal subtotal;
 	
 	@PrePersist
-	@PreUpdate
-	public void updateSubtotal() {
-	    if (price != null) {
-	        this.subtotal = price.multiply(BigDecimal.valueOf(quantity));
-	    }
-	}
+    @PreUpdate
+    public void calculateSubtotal() {
+        if (price != null && quantity != null) {
+            this.subtotal = price.multiply(BigDecimal.valueOf(quantity));
+        }
+    }
 
 	public Long getId() {
 		return id;
@@ -58,12 +57,12 @@ public class CartItemEntity {
 		this.id = id;
 	}
 
-	public CartEntity getCart() {
-		return cart;
+	public OrderEntity getOrder() {
+		return order;
 	}
 
-	public void setCart(CartEntity cart) {
-		this.cart = cart;
+	public void setOrder(OrderEntity order) {
+		this.order = order;
 	}
 
 	public ProductEntity getProduct() {
@@ -74,11 +73,11 @@ public class CartItemEntity {
 		this.product = product;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
@@ -98,18 +97,19 @@ public class CartItemEntity {
 		this.subtotal = subtotal;
 	}
 
-	public CartItemEntity(Long id, CartEntity cart, ProductEntity product, int quantity, BigDecimal price,
+	public OrderItemEntity(Long id, OrderEntity order, ProductEntity product, Integer quantity, BigDecimal price,
 			BigDecimal subtotal) {
 		super();
 		this.id = id;
-		this.cart = cart;
+		this.order = order;
 		this.product = product;
 		this.quantity = quantity;
 		this.price = price;
 		this.subtotal = subtotal;
 	}
 	
-	public CartItemEntity() {
+	public OrderItemEntity() {
 		
 	}
+	
 }
