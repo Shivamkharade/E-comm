@@ -1,7 +1,7 @@
-package com.e_comm.security;
+package com.e_comm.authdtos;
 
-public class LoginRequestdto {
-
+public class LogInRequestDto {
+	
 	private String username;
 	
 	private String password;
@@ -22,13 +22,14 @@ public class LoginRequestdto {
 		this.password = password;
 	}
 
-	public LoginRequestdto(String username, String password) {
+	public LogInRequestDto(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
 	}
 	
-	public LoginRequestdto() {
+	
+	public LogInRequestDto() {
 		
 	}
 }

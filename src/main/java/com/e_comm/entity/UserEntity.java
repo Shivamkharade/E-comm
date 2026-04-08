@@ -3,6 +3,7 @@ package com.e_comm.entity;
 import java.util.Collection;
 import java.util.List;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,21 +33,21 @@ public class UserEntity implements UserDetails {
     private String password;
 
     @Column(nullable = false)
-    private String role = "USER"; 
+    private String role; 
 
-    public UserEntity() {
-    }
     
-    public UserEntity(String username1,String Password1) {
+    public UserEntity(String username1,String Password1,String email1) {
     	this.username = username1;
     	this.password = Password1;
+    	this.email = email1;
     }
 
     public UserEntity(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
-        this.password = password;
         this.role = role;
+        this.password = password;
+        
     }
 
 

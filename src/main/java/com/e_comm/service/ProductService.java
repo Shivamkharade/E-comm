@@ -12,10 +12,10 @@ public interface ProductService {
 
 	List<ProductEntity> productsGet();
 
-	ProductEntity productsIdGet(@NotNull String id);
-
-	void productsIdDelete(@NotNull String id);
-
 	ProductEntity productsPost(@Valid Product product);
+
+	ProductEntity productsNameGet(@NotNull String name);
+
+	void productsNameDelete(@NotNull String name);
 
 }

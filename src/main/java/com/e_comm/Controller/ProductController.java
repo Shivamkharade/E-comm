@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -40,18 +41,30 @@ public class ProductController implements ProductsApi{
 														  .toList();
 		return ResponseEntity.ok(list);
 	}
-
+	
 	@Override
-	public ResponseEntity<Product> productsIdGet(@NotNull String id) {
-		Product product = mapper.map(productService.productsIdGet(id), Product.class);
+	public ResponseEntity<Product> productsNameGet(@NotNull String name) {
+		Product product = mapper.map(productService.productsNameGet(name), Product.class);
 		return ResponseEntity.ok(product);
 	}
 	
 	@Override
-	public ResponseEntity<Void> productsIdDelete(@NotNull String id) {
-		productService.productsIdDelete(id);
+	public ResponseEntity<Void> productsNameDelete(@NotNull String name) {
+		productService.productsNameDelete(name);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+
+//	@Override
+//	public ResponseEntity<Product> productsIdGet(@NotNull String name) {
+//		Product product = mapper.map(productService.productsIdGet(id), Product.class);
+//		return ResponseEntity.ok(product);
+//	}
+//	
+//	@Override
+//	public ResponseEntity<Void> productsIdDelete(@NotNull String id) {
+//		productService.productsIdDelete(id);
+//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//	}
 
 	@Override
 	public ResponseEntity<Product> productsPost(@Valid Product product) {

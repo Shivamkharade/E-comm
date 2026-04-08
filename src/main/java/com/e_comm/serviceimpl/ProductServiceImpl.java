@@ -11,6 +11,7 @@ import com.e_comm.entity.ProductEntity;
 import com.e_comm.service.ProductService;
 import com.petstore.model.Product;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -33,16 +34,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductEntity productsIdGet(@NotNull String id) {
-		return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found with id : " + id));
+	public ProductEntity productsNameGet(@NotNull String name) {
+		return productRepository.findByName(name).orElseThrow(() -> new RuntimeException("Product not found with name : " + name));
 	}
 
 	@Override
-	public void productsIdDelete(@NotNull String id) {
-		if (!productRepository.existsById(id)) {
-			throw new RuntimeException("Product not found with id : " + id);
+	@Transactional
+	public void productsNameDelete(@NotNull String name) {
+		if (!productRepository.existsByName(name)) {
+			throw new RuntimeException("Product not found with name : " + name);
 		}
-		productRepository.deleteById(id);
+		productRepository.deleteByName(name);
 	}
 
 	@Override

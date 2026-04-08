@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.e_comm.security.LoginRequestdto;
-import com.e_comm.security.SigenupResponsDto;
+import com.e_comm.authdtos.LogInRequestDto;
+import com.e_comm.authdtos.SigenupRequestdto;
+import com.e_comm.authdtos.SigenupResponsDto;
+import com.e_comm.authdtos.loginResponsdto;
 import com.e_comm.security.authService;
-import com.e_comm.security.loginResponsdto;
 
 
 @RestController
@@ -24,12 +25,12 @@ public class authController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<loginResponsdto> login(@RequestBody LoginRequestdto loginRequestdto ){
+	public ResponseEntity<loginResponsdto> login(@RequestBody LogInRequestDto loginRequestdto ){
 		return ResponseEntity.ok(authService.login(loginRequestdto));
 	}
 	
 	@PostMapping("/signup")
-	public ResponseEntity<SigenupResponsDto> signup(@RequestBody LoginRequestdto sigenupRequestdto){
+	public ResponseEntity<SigenupResponsDto> signup(@RequestBody SigenupRequestdto sigenupRequestdto){
 		return ResponseEntity.ok(authService.signup(sigenupRequestdto));
 	}
 	
