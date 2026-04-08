@@ -20,13 +20,5 @@ public class CartServiceImpl implements CartService{
 		this.cartRepository =cartRepository1;
 		this.mapper = new ModelMapper();
 	}
-
-	@Override
-	public CartEntity cartGet() {
-		return null;
-	}
-	
-	
-	
 	
 }

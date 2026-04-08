@@ -114,14 +114,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Cart'
 
-  /cart/remove/{productId}:
+  /cart/remove/{productName}:
     delete:
       tags: [Cart]
       summary: Remove item from cart
       security:
         - bearerAuth: []
       parameters:
-        - name: productId
+        - name: productName
           in: path
           required: true
           schema:
@@ -211,10 +211,11 @@ components:
     CartItemRequest:
       type: object
       properties:
-        productId:
+        productName:
           type: string
         quantity:
           type: integer
+          example: 1
 
     Cart:
       type: object
