@@ -11,8 +11,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,58 +25,68 @@ public class CartEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "cart_products",
-        joinColumns = @JoinColumn(name = "cart_id"),
-        inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<ProductEntity> items = new ArrayList<>();
-
+    @OneToMany(mappedBy = "cart", 
+    		cascade = CascadeType.ALL,
+    		orphanRemoval = true,
+    		fetch = FetchType.LAZY)
+    private List<CartItemEntity> items = new ArrayList<>();
+    
     private BigDecimal totalPrice = BigDecimal.ZERO;
-
-
-    public CartEntity() {
-    	
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<ProductEntity> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ProductEntity> items) {
-        this.items = items;
-        calculateTotalPrice();
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private UserEntity user;
+    
+    @PrePersist
+    @PreUpdate
     public void calculateTotalPrice() {
         this.totalPrice = items.stream()
-                               .map(ProductEntity::getPrice)
-                               .reduce(BigDecimal.ZERO, BigDecimal::add);
+        		.map(item -> item.getSubtotal() != null ? item.getSubtotal() : BigDecimal.ZERO)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-	public CartEntity(Long id, List<ProductEntity> items, BigDecimal totalPrice) {
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<CartItemEntity> getItems() {
+		return items;
+	}
+
+	public void setItems(List<CartItemEntity> items) {
+		this.items = items;
+	}
+
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
+
+	public CartEntity(Long id, List<CartItemEntity> items, BigDecimal totalPrice, UserEntity user) {
 		super();
 		this.id = id;
 		this.items = items;
 		this.totalPrice = totalPrice;
+		this.user = user;
 	}
-    
+
+    public CartEntity(){
+    	
+    }
     
 }

@@ -42,9 +42,9 @@ paths:
       responses:
         '201':
           description: Product added
-          content: 
-            application/json: 
-              schema: 
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/Product'
 
   /products/{name}:
@@ -83,7 +83,7 @@ paths:
   /cart:
     get:
       tags: [Cart]
-      summary: Get user cart
+      summary: Get logged-in user cart
       security:
         - bearerAuth: []
       responses:
@@ -107,22 +107,21 @@ paths:
             schema:
               $ref: '#/components/schemas/CartItemRequest'
       responses:
-        '201':
-          description: Item added
-          content: 
-            application/json: 
-              schema: 
+        '200':
+          description: Item added or updated
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/Cart'
-            
 
-  /cart/remove/{productId}:
+  /cart/remove/{productName}:
     delete:
       tags: [Cart]
       summary: Remove item from cart
       security:
         - bearerAuth: []
       parameters:
-        - name: productId
+        - name: productName
           in: path
           required: true
           schema:
@@ -130,6 +129,16 @@ paths:
       responses:
         '204':
           description: Item removed
+
+  /cart/clear:
+    delete:
+      tags: [Cart]
+      summary: Clear entire cart
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Cart cleared
 
   /orders/checkout:
     post:
@@ -154,7 +163,7 @@ paths:
   /orders:
     get:
       tags: [Orders]
-      summary: Get order history
+      summary: Get order history for logged-in user
       security:
         - bearerAuth: []
       responses:
@@ -189,13 +198,24 @@ components:
         price:
           type: number
 
+    CartItem:
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+        quantity:
+          type: integer
+        subtotal:
+          type: number
+
     CartItemRequest:
       type: object
       properties:
-        productId:
+        productName:
           type: string
         quantity:
           type: integer
+          example: 1
 
     Cart:
       type: object
@@ -203,17 +223,25 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: '#/components/schemas/CartItem'
         totalPrice:
           type: number
 
     CheckoutRequest:
       type: object
       properties:
-        cartId:
-          type: string
         paymentMethod:
           type: string
+
+    OrderItem:
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/Product'
+        quantity:
+          type: integer
+        price:
+          type: number
 
     Order:
       type: object
@@ -223,8 +251,13 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: '#/components/schemas/OrderItem'
         totalPrice:
           type: number
         status:
           type: string
+          enum:
+            - CREATED
+            - PAID
+            - SHIPPED
+            - DELIVERED
