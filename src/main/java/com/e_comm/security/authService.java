@@ -50,9 +50,24 @@ public class authService {
 		
 		if (entity != null) throw new IllegalArgumentException("User alredy exits");
 		
-		entity = repository.save(new 
-				UserEntity(sigenupRequestdto.getUsername(), sigenupRequestdto.getEmail(),encoder.encode(sigenupRequestdto.getPassword())));
+		entity = repository.save( 
+				new	UserEntity(sigenupRequestdto.getUsername(),  
+							   sigenupRequestdto.getEmail(), 
+							   encoder.encode(sigenupRequestdto.getPassword()), 
+							   "USER"));
 		return new SigenupResponsDto(entity.getId(), entity.getUsername());
+	}
+
+	public SigenupResponsDto signupAdmin(SigenupRequestdto adminRequestdto) {
+		UserEntity entity = repository.findByUsername(adminRequestdto.getUsername()).orElse(null);
+		if (entity !=null ) throw new RuntimeException("User alredy exits");
+		
+		entity = repository.save(
+				new UserEntity(adminRequestdto.getUsername(), 
+						adminRequestdto.getEmail(), 
+						encoder.encode(adminRequestdto.getPassword()), 
+						"ADMIN"));
+		return new SigenupResponsDto(entity.getId(),entity.getUsername());
 	}
 
 }

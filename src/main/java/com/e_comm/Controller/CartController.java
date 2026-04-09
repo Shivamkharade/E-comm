@@ -3,6 +3,7 @@ package com.e_comm.Controller;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -26,29 +27,29 @@ public class CartController implements CartApi {
 		this.cartService = cartService1;
 		this.mapper = new ModelMapper();
 	}
+	
+	@Override
+	public ResponseEntity<Cart> cartGet() {
+		Cart cart = mapper.map(cartService.cartGet(),Cart.class);
+		return new ResponseEntity<>(cart,HttpStatus.OK);
+	}
 
 	@Override
 	public ResponseEntity<Cart> cartAddPost(@Valid CartItemRequest cartItemRequest) {
-		// TODO Auto-generated method stub
-		return CartApi.super.cartAddPost(cartItemRequest);
-	}
-
-	@Override
-	public ResponseEntity<Void> cartClearDelete() {
-		// TODO Auto-generated method stub
-		return CartApi.super.cartClearDelete();
-	}
-
-	@Override
-	public ResponseEntity<Cart> cartGet() {
-		// TODO Auto-generated method stub
-		return CartApi.super.cartGet();
+		Cart cart = mapper.map(cartService.cartAddPost(cartItemRequest),Cart.class);
+		return new ResponseEntity<>(cart,HttpStatus.ACCEPTED);
 	}
 
 	@Override
 	public ResponseEntity<Void> cartRemoveProductNameDelete(@NotNull String productName) {
-		// TODO Auto-generated method stub
-		return CartApi.super.cartRemoveProductNameDelete(productName);
+		cartService.cartRemoveProductNameDelete(productName);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@Override
+	public ResponseEntity<Void> cartClearDelete() {
+		cartService.cartClearDelete();
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@Override

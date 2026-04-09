@@ -12,7 +12,6 @@ import com.e_comm.authdtos.SigenupResponsDto;
 import com.e_comm.authdtos.loginResponsdto;
 import com.e_comm.security.authService;
 
-
 @RestController
 @RequestMapping("/auth")
 public class authController {
@@ -22,7 +21,6 @@ public class authController {
 	public authController(authService authService1) {
 		this.authService = authService1;
 	}
-	
 	
 	@PostMapping("/login")
 	public ResponseEntity<loginResponsdto> login(@RequestBody LogInRequestDto loginRequestdto ){
@@ -34,4 +32,8 @@ public class authController {
 		return ResponseEntity.ok(authService.signup(sigenupRequestdto));
 	}
 	
+	@PostMapping("/signup/admin")
+	public ResponseEntity<SigenupResponsDto> signupAdmin(@RequestBody SigenupRequestdto adminRequestdto){
+		return ResponseEntity.ok(authService.signupAdmin(adminRequestdto));
+	}
 }

@@ -20,7 +20,7 @@ public class AuthUtil {
     @Value("${jwt.secretkey}")
     private String jwtSecretKey;
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 5;
+    private static final long EXPIRATION_TIME = 10000 * 60 * 5;
 
     private Key getSecretKey() {
         return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));

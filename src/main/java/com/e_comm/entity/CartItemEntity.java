@@ -42,13 +42,7 @@ public class CartItemEntity {
 	
 	private BigDecimal subtotal;
 	
-	@PrePersist
-	@PreUpdate
-	public void updateSubtotal() {
-	    if (price != null) {
-	        this.subtotal = price.multiply(BigDecimal.valueOf(quantity));
-	    }
-	}
+	
 
 	public Long getId() {
 		return id;
@@ -111,5 +105,13 @@ public class CartItemEntity {
 	
 	public CartItemEntity() {
 		
+	}
+	
+	@PrePersist
+	@PreUpdate
+	public void updateSubtotal() {
+	    if (price != null) {
+	        this.subtotal = price.multiply(BigDecimal.valueOf(quantity));
+	    }
 	}
 }
