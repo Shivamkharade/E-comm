@@ -62,7 +62,7 @@ public class WebSecurityConfig {
 
 	    source.registerCorsConfiguration("/**", configuration);
 	    return source;
-	}
+	}	
 	
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {

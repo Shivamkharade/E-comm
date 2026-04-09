@@ -36,12 +36,11 @@ public class CartServiceImpl implements CartService {
         this.productRepository = productRepository;
     }
 
-    // ✅ Get logged-in username
     private String getLoggedInUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    // ✅ Centralized cart creation
+    // Centralized cart creation
     private CartEntity getOrCreateCart(UserEntity user) {
         CartEntity cart = cartRepository.findByUser(user);
 
@@ -54,7 +53,7 @@ public class CartServiceImpl implements CartService {
         return cart;
     }
 
-    // ✅ GET CART
+    // GET CART
     @Override
     public CartEntity cartGet() {
         UserEntity user = userRepository
@@ -80,7 +79,7 @@ public class CartServiceImpl implements CartService {
 
         int quantity = request.getQuantity() != null ? request.getQuantity() : 1;
 
-        // ✅ Validation
+        // Validation
         if (quantity <= 0) {
             throw new RuntimeException("Quantity must be greater than 0");
         }
@@ -103,13 +102,17 @@ public class CartServiceImpl implements CartService {
 
             cart.getItems().add(newItem);
         }
+        
+        for (CartItemEntity item : cart.getItems()) {
+            item.updateSubtotal();
+        }
 
         cart.calculateTotalPrice();
 
         return cartRepository.save(cart);
     }
 
-    // ✅ REMOVE PRODUCT FROM CART
+    // REMOVE PRODUCT FROM CART
     @Override
     public void cartRemoveProductNameDelete(@NotNull String productName) {
 
@@ -139,7 +142,7 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
     }
 
-    // ✅ CLEAR CART
+    // CLEAR CART
     @Override
     public void cartClearDelete() {
 

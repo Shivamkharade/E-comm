@@ -37,13 +37,7 @@ public class CartEntity {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private UserEntity user;
     
-    @PrePersist
-    @PreUpdate
-    public void calculateTotalPrice() {
-        this.totalPrice = items.stream()
-        		.map(item -> item.getSubtotal() != null ? item.getSubtotal() : BigDecimal.ZERO)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
+    
 
 	public Long getId() {
 		return id;
@@ -89,4 +83,11 @@ public class CartEntity {
     	
     }
     
+    @PrePersist
+    @PreUpdate
+    public void calculateTotalPrice() {
+        this.totalPrice = items.stream()
+        		.map(item -> item.getSubtotal() != null ? item.getSubtotal() : BigDecimal.ZERO)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
