@@ -26,14 +26,16 @@ public class WebSecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception  {
 		
 		http.csrf(csrf -> csrf.disable())
-			.sessionManagement(sessionconfig -> sessionconfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(auth -> auth
-					.requestMatchers("/auth/**").permitAll()
+					.requestMatchers(HttpMethod.POST, "/auth/signup/admin").hasRole("ADMIN")
+					.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+					.requestMatchers(HttpMethod.POST,"/auth/signup").permitAll()
 					.requestMatchers(HttpMethod.GET,"/products/**").hasAllRoles("USER")
 					.requestMatchers("/orders/**","/cart/**").hasAnyRole("USER","ADMIN")
 					.requestMatchers("/products/**").hasRole("ADMIN")
 					.anyRequest().authenticated()
 					)
+			.sessionManagement(sessionconfig -> sessionconfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.addFilterBefore(jwtauthFilter, UsernamePasswordAuthenticationFilter.class);
 //			.formLogin(Customizer.withDefaults());
 		

@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.e_comm.entity.CartEntity;
 import com.e_comm.entity.UserEntity;
+import java.util.List;
+
 
 @Repository
 public interface CartRepository extends JpaRepository<CartEntity, Long> {
 
-	CartEntity findbyUserEntity(UserEntity userEntity);
+	CartEntity findByUser(UserEntity user);
 }

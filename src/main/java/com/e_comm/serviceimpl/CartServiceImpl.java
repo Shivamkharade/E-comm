@@ -15,8 +15,8 @@ import com.petstore.model.CartItemRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-@Service
-@Validated
+//@Service
+//@Validated
 public class CartServiceImpl implements CartService{
 
 	private final CartRepository cartRepository;
@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public CartEntity cartGet() {
 		UserEntity userEntity = userRepository.findByUsername(getLoggedInUsername()).orElseThrow();
-		CartEntity cartEntity = cartRepository.findbyUserEntity(userEntity);
+		CartEntity cartEntity = cartRepository.findByUser(userEntity);
 		
 		if (cartEntity == null) {
 			cartEntity = new CartEntity();
@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public CartEntity cartAddPost(@Valid CartItemRequest cartItemRequest) {
 		UserEntity userEntity = userRepository.findByUsername(getLoggedInUsername()).orElseThrow();
-		CartEntity cartEntity = cartRepository.findbyUserEntity(userEntity);
+		CartEntity cartEntity = cartRepository.findByUser(userEntity);
 		return null;
 	}
 

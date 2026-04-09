@@ -16,7 +16,7 @@ import com.petstore.model.CartItemRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-@RestController
+//@RestController
 public class CartController implements CartApi {
 
 	private final CartService cartService;

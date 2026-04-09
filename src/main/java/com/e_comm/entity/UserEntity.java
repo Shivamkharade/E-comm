@@ -50,6 +50,9 @@ public class UserEntity implements UserDetails {
         
     }
 
+    public UserEntity() {
+    	
+    }
 
     public String getId() {
         return id;
