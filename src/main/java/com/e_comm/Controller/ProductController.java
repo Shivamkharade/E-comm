@@ -56,18 +56,6 @@ public class ProductController implements ProductsApi{
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-//	@Override
-//	public ResponseEntity<Product> productsIdGet(@NotNull String name) {
-//		Product product = mapper.map(productService.productsIdGet(id), Product.class);
-//		return ResponseEntity.ok(product);
-//	}
-//	
-//	@Override
-//	public ResponseEntity<Void> productsIdDelete(@NotNull String id) {
-//		productService.productsIdDelete(id);
-//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//	}
-
 	@Override
 	public ResponseEntity<Product> productsPost(@Valid Product product) {
 		Product product2 = mapper.map(productService.productsPost(product), Product.class);
