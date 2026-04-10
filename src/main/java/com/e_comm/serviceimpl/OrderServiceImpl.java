@@ -7,11 +7,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.e_comm.Enum.PaymentMethod;
 import com.e_comm.Repository.CartRepository;
 import com.e_comm.Repository.OrderRepository;
 import com.e_comm.Repository.UserRepository;
 import com.e_comm.entity.CartEntity;
+import com.e_comm.entity.CartItemEntity;
 import com.e_comm.entity.OrderEntity;
+import com.e_comm.entity.OrderItemEntity;
 import com.e_comm.entity.UserEntity;
 import com.e_comm.service.OrderService;
 import com.petstore.model.CheckoutRequest;
@@ -58,17 +61,52 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrderEntity ordersCheckoutPost(@Valid CheckoutRequest checkoutRequest) {
 		
+		//logged in user
 		UserEntity userEntity = userRepository.findByUsername(getLogedInUser()).orElseThrow();
 		
-		CartEntity cartEntity = cartRepository.findByUser(userEntity);
+		//logged in user cart
+		CartEntity cartEntity = getCartLoggedinUser(userEntity);
 		
+		//creating new order for the logged in user
 		OrderEntity orderEntity = new OrderEntity();
 		
+		//setting the user
 		orderEntity.setUser(userEntity);
 		
-		orderEntity.setPaymentMethod(checkoutRequest);
+		//payment method selecting by user
+		orderEntity.setPaymentMethod(PaymentMethod.valueOf(checkoutRequest.getPaymentMethod().name()));
 		
-		return null;
+		//getting items from the cart to the order list 
+		List<OrderItemEntity> itemList = cartEntity.getItems().stream()
+															  .map(cartItem -> {
+																  OrderItemEntity item = mapper.map(cartItem, OrderItemEntity.class);
+																  return item;
+															  })
+															  .toList();
+		//saving the item list
+		orderEntity.setItems(itemList);
+		
+		//calculating total price 
+		orderEntity.calculateTotalPrice();
+		
+		//saving the order
+		orderRepository.save(orderEntity);
+		
+		//after save clearing cart
+		cartEntity.getItems().clear();
+		
+		cartRepository.save(cartEntity);
+		
+		//return order 
+		return orderEntity;
 	}
 	
 }
+
+
+
+
+
+
+
+

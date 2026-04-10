@@ -226,12 +226,17 @@ components:
             $ref: '#/components/schemas/CartItem'
         totalPrice:
           type: number
+          
 
     CheckoutRequest:
       type: object
       properties:
         paymentMethod:
           type: string
+          enum:
+          - CASH_ON_DELIVERY
+          - UPI
+          - CARD
 
     OrderItem:
       type: object
