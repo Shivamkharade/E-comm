@@ -45,6 +45,9 @@ public class authService {
 		return new loginResponsdto(tokan,user.getId());
 	}
 
+	
+	
+	
 	public SigenupResponsDto signup(SigenupRequestdto sigenupRequestdto) {
 		UserEntity entity = repository.findByUsername(sigenupRequestdto.getUsername()).orElse(null);
 		
@@ -58,6 +61,9 @@ public class authService {
 		return new SigenupResponsDto(entity.getId(), entity.getUsername());
 	}
 
+	
+	
+	
 	public SigenupResponsDto signupAdmin(SigenupRequestdto adminRequestdto) {
 		UserEntity entity = repository.findByUsername(adminRequestdto.getUsername()).orElse(null);
 		if (entity !=null ) throw new RuntimeException("User alredy exits");
