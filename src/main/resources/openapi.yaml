@@ -7,6 +7,10 @@ info:
 servers:
   - url: http://localhost:8080
 
+# ✅ APPLY SECURITY GLOBALLY (IMPORTANT)
+security:
+  - BearerAuth: []
+
 tags:
   - name: Products
   - name: Cart
@@ -32,7 +36,7 @@ paths:
       tags: [Products]
       summary: Add product (Admin)
       security:
-        - bearerAuth: []
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -69,7 +73,7 @@ paths:
       tags: [Products]
       summary: Delete product (Admin)
       security:
-        - bearerAuth: []
+        - BearerAuth: []
       parameters:
         - name: name
           in: path
@@ -84,8 +88,6 @@ paths:
     get:
       tags: [Cart]
       summary: Get logged-in user cart
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Cart data
@@ -98,8 +100,6 @@ paths:
     post:
       tags: [Cart]
       summary: Add item to cart
-      security:
-        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -118,8 +118,6 @@ paths:
     delete:
       tags: [Cart]
       summary: Remove item from cart
-      security:
-        - bearerAuth: []
       parameters:
         - name: productName
           in: path
@@ -134,8 +132,6 @@ paths:
     delete:
       tags: [Cart]
       summary: Clear entire cart
-      security:
-        - bearerAuth: []
       responses:
         '204':
           description: Cart cleared
@@ -144,8 +140,6 @@ paths:
     post:
       tags: [Orders]
       summary: Checkout cart and create order
-      security:
-        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -164,8 +158,6 @@ paths:
     get:
       tags: [Orders]
       summary: Get order history for logged-in user
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: List of orders
@@ -179,7 +171,7 @@ paths:
 components:
 
   securitySchemes:
-    bearerAuth:
+    BearerAuth:   # ✅ MUST MATCH SwaggerConfig
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -226,17 +218,18 @@ components:
             $ref: '#/components/schemas/CartItem'
         totalPrice:
           type: number
-          
 
     CheckoutRequest:
       type: object
+      required:
+        - paymentMethod
       properties:
         paymentMethod:
           type: string
           enum:
-          - CASH_ON_DELIVERY
-          - UPI
-          - CARD
+            - CASH_ON_DELIVERY
+            - UPI
+            - CARD
 
     OrderItem:
       type: object
@@ -263,6 +256,13 @@ components:
           type: string
           enum:
             - CREATED
-            - PAID
+            - CONFIRMED
             - SHIPPED
             - DELIVERED
+            - CANCELLED
+        paymentMethod:   # ✅ NEW (IMPORTANT)
+          type: string
+          enum:
+            - CASH_ON_DELIVERY
+            - UPI
+            - CARD

@@ -1,5 +1,6 @@
 package com.e_comm.serviceimpl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -20,6 +21,7 @@ import com.e_comm.service.OrderService;
 import com.petstore.model.CheckoutRequest;
 import com.petstore.model.Order;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Service
@@ -58,47 +60,42 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.findByUser(userEntity);
 	}
 
+	@Transactional
 	@Override
 	public OrderEntity ordersCheckoutPost(@Valid CheckoutRequest checkoutRequest) {
-		
-		//logged in user
-		UserEntity userEntity = userRepository.findByUsername(getLogedInUser()).orElseThrow();
-		
-		//logged in user cart
-		CartEntity cartEntity = getCartLoggedinUser(userEntity);
-		
-		//creating new order for the logged in user
-		OrderEntity orderEntity = new OrderEntity();
-		
-		//setting the user
-		orderEntity.setUser(userEntity);
-		
-		//payment method selecting by user
-		orderEntity.setPaymentMethod(PaymentMethod.valueOf(checkoutRequest.getPaymentMethod().name()));
-		
-		//getting items from the cart to the order list 
-		List<OrderItemEntity> itemList = cartEntity.getItems().stream()
-															  .map(cartItem -> {
-																  OrderItemEntity item = mapper.map(cartItem, OrderItemEntity.class);
-																  return item;
-															  })
-															  .toList();
-		//saving the item list
-		orderEntity.setItems(itemList);
-		
-		//calculating total price 
-		orderEntity.calculateTotalPrice();
-		
-		//saving the order
-		orderRepository.save(orderEntity);
-		
-		//after save clearing cart
-		cartEntity.getItems().clear();
-		
-		cartRepository.save(cartEntity);
-		
-		//return order 
-		return orderEntity;
+
+	    UserEntity userEntity = userRepository.findByUsername(getLogedInUser()).orElseThrow();
+
+	    CartEntity cartEntity = getCartLoggedinUser(userEntity);
+
+	    OrderEntity orderEntity = new OrderEntity();
+
+	    orderEntity.setUser(userEntity);
+
+	    orderEntity.setPaymentMethod(
+	        PaymentMethod.valueOf(checkoutRequest.getPaymentMethod().name())
+	    );
+
+	    // ✅ Proper mapping
+	    for (CartItemEntity cartItem : cartEntity.getItems()) {
+	        OrderItemEntity item = new OrderItemEntity();
+	        item.setProduct(cartItem.getProduct());
+	        item.setPrice(cartItem.getPrice());
+	        item.setQuantity(cartItem.getQuantity());
+
+	        orderEntity.addItem(item); // ✅ BEST PRACTICE
+	    }
+
+	    // total price auto via @PrePersist
+	    orderRepository.save(orderEntity);
+
+	    // clear cart
+	    cartEntity.getItems().clear();
+	    orderEntity.calculateTotalPrice();
+	    cartEntity.setTotalPrice(BigDecimal.ZERO);
+	    cartRepository.save(cartEntity);
+
+	    return orderEntity;
 	}
 	
 }
