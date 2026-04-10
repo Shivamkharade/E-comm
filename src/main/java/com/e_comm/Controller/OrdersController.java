@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -17,6 +18,7 @@ import com.petstore.model.Order;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class OrdersController implements OrdersApi {
 
 	private final OrderService orderService;

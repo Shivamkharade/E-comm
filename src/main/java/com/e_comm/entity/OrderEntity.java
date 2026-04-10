@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.e_comm.Enum.OrderEntityEnum;
+import com.e_comm.Enum.PaymentMethod;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -44,6 +45,9 @@ public class OrderEntity {
 
     @Enumerated(EnumType.STRING)
     private OrderEntityEnum status = OrderEntityEnum.CREATED;
+    
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
     
     @PrePersist
     @PreUpdate
@@ -93,16 +97,25 @@ public class OrderEntity {
 		this.status = status;
 	}
 
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	
 	public OrderEntity(String id, List<OrderItemEntity> items, BigDecimal totalPrice, UserEntity user,
-			OrderEntityEnum status) {
+			OrderEntityEnum status, PaymentMethod paymentMethod) {
 		super();
 		this.id = id;
 		this.items = items;
 		this.totalPrice = totalPrice;
 		this.user = user;
 		this.status = status;
+		this.paymentMethod = paymentMethod;
 	}
-	
+
 	public void addItem(OrderItemEntity item) {
 	    items.add(item);
 	    item.setOrder(this);

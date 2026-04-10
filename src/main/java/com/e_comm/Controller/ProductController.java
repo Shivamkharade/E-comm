@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -15,6 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class ProductController implements ProductsApi{
 
 	
@@ -52,18 +54,6 @@ public class ProductController implements ProductsApi{
 		productService.productsNameDelete(name);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-
-//	@Override
-//	public ResponseEntity<Product> productsIdGet(@NotNull String name) {
-//		Product product = mapper.map(productService.productsIdGet(id), Product.class);
-//		return ResponseEntity.ok(product);
-//	}
-//	
-//	@Override
-//	public ResponseEntity<Void> productsIdDelete(@NotNull String id) {
-//		productService.productsIdDelete(id);
-//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//	}
 
 	@Override
 	public ResponseEntity<Product> productsPost(@Valid Product product) {
