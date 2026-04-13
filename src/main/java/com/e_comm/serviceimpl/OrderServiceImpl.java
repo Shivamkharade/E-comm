@@ -3,7 +3,6 @@ package com.e_comm.serviceimpl;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +18,6 @@ import com.e_comm.entity.OrderItemEntity;
 import com.e_comm.entity.UserEntity;
 import com.e_comm.service.OrderService;
 import com.petstore.model.CheckoutRequest;
-import com.petstore.model.Order;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -27,8 +25,6 @@ import jakarta.validation.Valid;
 @Service
 @Validated
 public class OrderServiceImpl implements OrderService {
-
-	private final ModelMapper mapper;
 	
 	private final OrderRepository orderRepository;
 	
@@ -37,7 +33,6 @@ public class OrderServiceImpl implements OrderService {
 	private final UserRepository userRepository;
 	
 	public OrderServiceImpl(OrderRepository orderRepository1,CartRepository cartRepository1,UserRepository userRepository1) {
-		this.mapper = new ModelMapper();
 		this.orderRepository = orderRepository1;
 		this.cartRepository = cartRepository1;
 		this.userRepository = userRepository1;
@@ -73,17 +68,16 @@ public class OrderServiceImpl implements OrderService {
 	    orderEntity.setUser(userEntity);
 
 	    orderEntity.setPaymentMethod(
-	        PaymentMethod.valueOf(checkoutRequest.getPaymentMethod().name())
-	    );
+	        PaymentMethod.valueOf(checkoutRequest.getPaymentMethod().name()));
 
-	    // ✅ Proper mapping
+	    // Proper mapping
 	    for (CartItemEntity cartItem : cartEntity.getItems()) {
 	        OrderItemEntity item = new OrderItemEntity();
 	        item.setProduct(cartItem.getProduct());
 	        item.setPrice(cartItem.getPrice());
 	        item.setQuantity(cartItem.getQuantity());
 
-	        orderEntity.addItem(item); // ✅ BEST PRACTICE
+	        orderEntity.addItem(item); 
 	    }
 
 	    // total price auto via @PrePersist
