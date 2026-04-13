@@ -3,7 +3,6 @@ package com.e_comm.serviceimpl;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +18,6 @@ import com.e_comm.entity.OrderItemEntity;
 import com.e_comm.entity.UserEntity;
 import com.e_comm.service.OrderService;
 import com.petstore.model.CheckoutRequest;
-import com.petstore.model.Order;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
