@@ -57,13 +57,13 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartEntity cartGet() {
         UserEntity user = userRepository
-                .findByUsername(getLoggedInUsername())
-                .orElseThrow();
+        							.findByUsername(getLoggedInUsername())
+        							.orElseThrow();
 
         return getOrCreateCart(user);
     }
 
-    // ✅ ADD TO CART
+    // ADD TO CART
     @Override
     public CartEntity cartAddPost(@Valid CartItemRequest request) {
 
@@ -85,9 +85,9 @@ public class CartServiceImpl implements CartService {
         }
 
         Optional<CartItemEntity> existingItem = cart.getItems()
-                .stream()
-                .filter(item -> item.getProduct().getId().equals(product.getId()))
-                .findFirst();
+        														.stream()
+        														.filter(item -> item.getProduct().getId().equals(product.getId()))
+        														.findFirst();
 
         if (existingItem.isPresent()) {
             CartItemEntity item = existingItem.get();
@@ -126,14 +126,14 @@ public class CartServiceImpl implements CartService {
         }
 
         ProductEntity product = productRepository
-                .findByName(productName)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        										.findByName(productName)
+        										.orElseThrow(() -> new RuntimeException("Product not found"));
 
         CartItemEntity itemToRemove = cart.getItems()
-                .stream()
-                .filter(item -> item.getProduct().getId().equals(product.getId()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not in cart"));
+                									.stream()
+                									.filter(item -> item.getProduct().getId().equals(product.getId()))
+                									.findFirst()
+                									.orElseThrow(() -> new RuntimeException("Product not in cart"));
 
         cart.getItems().remove(itemToRemove);
 

@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.e_comm.Repository.UserRepository;
+import com.e_comm.SolaceEventPublishing.EventPublisher;
+import com.e_comm.SolaceEventPublishing.EventSent;
 import com.e_comm.authdtos.LogInRequestDto;
 import com.e_comm.authdtos.SigenupRequestdto;
 import com.e_comm.authdtos.SigenupResponsDto;
@@ -20,16 +22,19 @@ public class authService {
 	
 	private final AuthUtil authUtil;
 	
+	private final EventPublisher eventPublisher;
+	
 	private final UserRepository repository;
 	
 	private final PasswordEncoder encoder;
 	
 	
-	public authService(AuthenticationManager authenticationManager1,AuthUtil authUtil1,UserRepository repository1,PasswordEncoder encoder1) {
+	public authService(AuthenticationManager authenticationManager1,AuthUtil authUtil1,UserRepository repository1,PasswordEncoder encoder1,EventPublisher eventPublisher1) {
 		this.authenticationManager = authenticationManager1;
 		this.authUtil = authUtil1;
 		this.repository = repository1;
 		this.encoder = encoder1;
+		this.eventPublisher = eventPublisher1;
 	}
 
 	public loginResponsdto login(LogInRequestDto loginRequestdto) {
@@ -41,6 +46,8 @@ public class authService {
 		UserEntity user = (UserEntity) authentication.getPrincipal();
 		
 		String tokan = authUtil.generateAccessToken(user);
+		
+		eventPublisher.publish(new EventSent(user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
 		
 		return new loginResponsdto(tokan,user.getId());
 	}
