@@ -48,6 +48,7 @@ public class authService {
 		String tokan = authUtil.generateAccessToken(user);
 		
 		eventPublisher.publishLogInEvent(new EventSent(user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
+		System.out.println("Published an event on ecomm/user/login");
 		
 		return new loginResponsdto(tokan,user.getId());
 	}
@@ -70,6 +71,7 @@ public class authService {
 						entity.getUsername(), 
 						entity.getEmail(), 
 						entity.getRole()));
+		System.out.println("Published an event on ecomm/user/registration/user");
 		return new SigenupResponsDto(entity.getId(), entity.getUsername());
 	}
 
