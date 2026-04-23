@@ -47,7 +47,7 @@ public class authService {
 		
 		String tokan = authUtil.generateAccessToken(user);
 		
-		eventPublisher.publish(new EventSent(user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
+		eventPublisher.publishLogInEvent(new EventSent(user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
 		
 		return new loginResponsdto(tokan,user.getId());
 	}
@@ -65,6 +65,11 @@ public class authService {
 							   sigenupRequestdto.getEmail(), 
 							   encoder.encode(sigenupRequestdto.getPassword()), 
 							   "USER"));
+		eventPublisher.publishRegistrationEvent(
+				new EventSent(entity.getId(), 
+						entity.getUsername(), 
+						entity.getEmail(), 
+						entity.getRole()));
 		return new SigenupResponsDto(entity.getId(), entity.getUsername());
 	}
 
