@@ -16,5 +16,4 @@ public class EventPublisher {
 	public void publish(EventSent event) {
 		streamBridge.send("userJwtLogin-out-0", event);
 	}
-	
 }
