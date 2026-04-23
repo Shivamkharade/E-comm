@@ -1,0 +1,53 @@
+spring: 
+  application:
+    name: E-Comm
+
+  datasource: 
+    url: jdbc:mysql://localhost:3306/ecomm
+    username: ${MYSQL_USERNAME} 
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  jpa: 
+    defer-datasource-initialization: true
+    hibernate: 
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate: 
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+
+  sql:
+    init: 
+      mode: always
+      platform: mysql
+
+
+  cloud:
+    stream: 
+      bindings: 
+        userJwtLogin-out-0:
+            destination: ecomm/user/login
+        userRegistrationMail-out-0: 
+          destination: ecomm/user/registration/user
+      default-binder: solace
+
+jwt:
+  secretkey: ${KEY}
+
+
+solace:
+  java:
+    host: tcp://localhost:55555
+    msg-vpn: default
+    client-username: admin
+    client-password: admin
+
+
+server:
+  port: 8090
