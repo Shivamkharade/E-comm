@@ -139,6 +139,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		
 		<dependency>
 		    <groupId>org.openapitools</groupId>
 		    <artifactId>jackson-databind-nullable</artifactId>
