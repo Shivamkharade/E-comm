@@ -31,10 +31,16 @@ spring:
   cloud:
     stream: 
       bindings: 
+
         userJwtLogin-out-0:
             destination: ecomm/user/login
+
         userRegistrationMail-out-0: 
           destination: ecomm/user/registration/user
+
+        orderConformationMail-out-0:
+          destination: ecomm/user/Order/Conformation
+
       default-binder: solace
 
 jwt:

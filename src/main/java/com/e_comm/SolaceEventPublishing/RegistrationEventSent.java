@@ -1,6 +1,6 @@
 package com.e_comm.SolaceEventPublishing;
 
-public class EventSent {
+public class RegistrationEventSent {
 
 	private String id;
 	
@@ -42,7 +42,7 @@ public class EventSent {
 		this.role = role;
 	}
 
-	public EventSent(String id, String username, String email, String role) {
+	public RegistrationEventSent(String id, String username, String email, String role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -50,7 +50,7 @@ public class EventSent {
 		this.role = role;
 	}
 	
-	public EventSent() {
+	public RegistrationEventSent() {
 		
 	}
 }

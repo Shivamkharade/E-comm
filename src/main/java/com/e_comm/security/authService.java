@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.e_comm.Repository.UserRepository;
 import com.e_comm.SolaceEventPublishing.EventPublisher;
-import com.e_comm.SolaceEventPublishing.EventSent;
+import com.e_comm.SolaceEventPublishing.RegistrationEventSent;
 import com.e_comm.authdtos.LogInRequestDto;
 import com.e_comm.authdtos.SigenupRequestdto;
 import com.e_comm.authdtos.SigenupResponsDto;
@@ -47,7 +47,7 @@ public class authService {
 		
 		String tokan = authUtil.generateAccessToken(user);
 		
-		eventPublisher.publishLogInEvent(new EventSent(user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
+		eventPublisher.publishLogInEvent(new RegistrationEventSent(user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
 		System.out.println("Published an event on ecomm/user/login");
 		
 		return new loginResponsdto(tokan,user.getId());
@@ -67,7 +67,7 @@ public class authService {
 							   encoder.encode(sigenupRequestdto.getPassword()), 
 							   "USER"));
 		eventPublisher.publishRegistrationEvent(
-				new EventSent(entity.getId(), 
+				new RegistrationEventSent(entity.getId(), 
 						entity.getUsername(), 
 						entity.getEmail(), 
 						entity.getRole()));

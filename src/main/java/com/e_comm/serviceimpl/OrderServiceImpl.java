@@ -11,6 +11,8 @@ import com.e_comm.Enum.PaymentMethod;
 import com.e_comm.Repository.CartRepository;
 import com.e_comm.Repository.OrderRepository;
 import com.e_comm.Repository.UserRepository;
+import com.e_comm.SolaceEventPublishing.EventPublisher;
+import com.e_comm.SolaceEventPublishing.OrderConformationEventSent;
 import com.e_comm.entity.CartEntity;
 import com.e_comm.entity.CartItemEntity;
 import com.e_comm.entity.OrderEntity;
@@ -32,10 +34,16 @@ public class OrderServiceImpl implements OrderService {
 	
 	private final UserRepository userRepository;
 	
-	public OrderServiceImpl(OrderRepository orderRepository1,CartRepository cartRepository1,UserRepository userRepository1) {
+	private final EventPublisher eventPublisher;
+	
+	public OrderServiceImpl(OrderRepository orderRepository1,
+							CartRepository cartRepository1,
+							UserRepository userRepository1,
+							EventPublisher eventPublisher1) {
 		this.orderRepository = orderRepository1;
 		this.cartRepository = cartRepository1;
 		this.userRepository = userRepository1;
+		this.eventPublisher = eventPublisher1;
 	}
 	
 	private String getLogedInUser() {
@@ -88,7 +96,15 @@ public class OrderServiceImpl implements OrderService {
 	    orderEntity.calculateTotalPrice();
 	    cartEntity.setTotalPrice(BigDecimal.ZERO);
 	    cartRepository.save(cartEntity);
-
+	    
+	    // publishing event 
+	    eventPublisher.publishOrderConformationEvent(
+	    		new OrderConformationEventSent(userEntity.getId(), 
+	    				orderEntity.getTotalPrice(), 
+	    				userEntity.getEmail(), 
+	    				userEntity.getUsername(), 
+	    				orderEntity.getPaymentMethod().toString()
+	    				));
 	    return orderEntity;
 	}
 	

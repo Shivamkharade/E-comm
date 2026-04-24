@@ -15,11 +15,15 @@ public class EventPublisher {
 		this.streamBridge = streamBridge1;
 	}
 	
-	public void publishLogInEvent(EventSent event) {
+	public void publishLogInEvent(RegistrationEventSent event) {
 		streamBridge.send("userJwtLogin-out-0", event);
 	}
 	
-	public void publishRegistrationEvent(EventSent event) {
+	public void publishRegistrationEvent(RegistrationEventSent event) {
 		streamBridge.send("userRegistrationMail-out-0", event);
+	}
+	
+	public void publishOrderConformationEvent(OrderConformationEventSent eventSent) {
+		streamBridge.send("orderConformationMail-out-0", eventSent);
 	}
 }
