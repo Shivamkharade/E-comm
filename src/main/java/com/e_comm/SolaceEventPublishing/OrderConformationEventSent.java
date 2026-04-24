@@ -54,7 +54,11 @@ public class OrderConformationEventSent {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public OrderConformationEventSent(String id, BigDecimal totalPrice, String userEmail, String userName,
+	public OrderConformationEventSent(
+			String id, 
+			BigDecimal totalPrice, 
+			String userEmail, 
+			String userName,
 			String paymentMethod) {
 		super();
 		this.id = id;
