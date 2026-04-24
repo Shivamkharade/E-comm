@@ -24,6 +24,9 @@ public class EventPublisher {
 	}
 	
 	public void publishOrderConformationEvent(OrderConformationEventSent eventSent) {
-		streamBridge.send("orderConformationMail-out-0", eventSent);
+
+	    boolean sent = streamBridge.send("orderConformation-out-0", eventSent);
+
+	    System.out.println("SENT STATUS = " + sent);
 	}
 }

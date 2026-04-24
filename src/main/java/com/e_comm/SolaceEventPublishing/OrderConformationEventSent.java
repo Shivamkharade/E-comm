@@ -1,6 +1,9 @@
 package com.e_comm.SolaceEventPublishing;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.e_comm.entity.OrderItemEntity;
 
 public class OrderConformationEventSent {
 
@@ -13,6 +16,7 @@ public class OrderConformationEventSent {
 	private String userName;
 	
 	private String paymentMethod;
+	
 
 	public String getId() {
 		return id;
@@ -54,11 +58,7 @@ public class OrderConformationEventSent {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public OrderConformationEventSent(
-			String id, 
-			BigDecimal totalPrice, 
-			String userEmail, 
-			String userName,
+	public OrderConformationEventSent(String id, BigDecimal totalPrice, String userEmail, String userName,
 			String paymentMethod) {
 		super();
 		this.id = id;
@@ -67,7 +67,7 @@ public class OrderConformationEventSent {
 		this.userName = userName;
 		this.paymentMethod = paymentMethod;
 	}
-	
+
 	public OrderConformationEventSent() {
 		
 	}
