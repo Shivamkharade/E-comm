@@ -2,6 +2,7 @@ package com.e_comm.serviceimpl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -97,13 +98,20 @@ public class OrderServiceImpl implements OrderService {
 	    cartEntity.setTotalPrice(BigDecimal.ZERO);
 	    cartRepository.save(cartEntity);
 	    
+	    // getting the items for the event
+	    
+	    String itemsDetails = orderEntity.getItems().stream()
+	    											.map(item -> item.getProduct().getName() + " x "+ item.getQuantity())
+	    											.collect(Collectors.joining("\n"));
+	    
 	    // publishing event 
 	    eventPublisher.publishOrderConformationEvent(
 	    		new OrderConformationEventSent(userEntity.getId(), 
 	    				orderEntity.getTotalPrice(), 
 	    				userEntity.getEmail(), 
 	    				userEntity.getUsername(), 
-	    				orderEntity.getPaymentMethod().toString()
+	    				orderEntity.getPaymentMethod().toString(),
+	    				itemsDetails
 	    				));
 	    return orderEntity;
 	}

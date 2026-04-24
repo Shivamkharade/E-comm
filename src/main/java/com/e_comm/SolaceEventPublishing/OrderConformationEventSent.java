@@ -17,6 +17,7 @@ public class OrderConformationEventSent {
 	
 	private String paymentMethod;
 	
+	private String itemDetails;
 
 	public String getId() {
 		return id;
@@ -58,14 +59,23 @@ public class OrderConformationEventSent {
 		this.paymentMethod = paymentMethod;
 	}
 
+	public String getItemDetails() {
+		return itemDetails;
+	}
+
+	public void setItemDetails(String itemDetails) {
+		this.itemDetails = itemDetails;
+	}
+
 	public OrderConformationEventSent(String id, BigDecimal totalPrice, String userEmail, String userName,
-			String paymentMethod) {
+			String paymentMethod, String itemDetails) {
 		super();
 		this.id = id;
 		this.totalPrice = totalPrice;
 		this.userEmail = userEmail;
 		this.userName = userName;
 		this.paymentMethod = paymentMethod;
+		this.itemDetails = itemDetails;
 	}
 
 	public OrderConformationEventSent() {
