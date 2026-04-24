@@ -2,6 +2,7 @@ spring:
   application:
     name: E-Comm
 
+
   datasource: 
     url: jdbc:mysql://localhost:3306/ecomm
     username: ${MYSQL_USERNAME} 
@@ -30,6 +31,8 @@ spring:
 
   cloud:
     stream: 
+      default:
+        binder: solace
       bindings: 
 
         userJwtLogin-out-0:
@@ -38,10 +41,9 @@ spring:
         userRegistrationMail-out-0: 
           destination: ecomm/user/registration/user
 
-        orderConformationMail-out-0:
-          destination: ecomm/user/Order/Conformation
+        orderConformation-out-0:
+          destination: ecomm/user/order/confirmation
 
-      default-binder: solace
 
 jwt:
   secretkey: ${KEY}

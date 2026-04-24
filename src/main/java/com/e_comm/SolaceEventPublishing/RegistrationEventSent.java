@@ -49,7 +49,7 @@ public class RegistrationEventSent {
 		this.email = email;
 		this.role = role;
 	}
-	
+
 	public RegistrationEventSent() {
 		
 	}
